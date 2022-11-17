@@ -1,0 +1,36 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+        {
+            "label": "rust: native-compile-serial",
+            "type": "cargo",
+            "command": "build",
+            "problemMatcher": ["$rustc"],
+            "group": "build",
+        },
+        {
+            "label": "rust: cross-compile-serial",
+            "type": "cargo",
+            "command": "build",
+            "args": ["--target=aarch64-unknown-linux-gnu"],
+            "problemMatcher": ["$rustc"],
+            "group": "build",
+        },
+        {
+            "label": "rust: remote-debug-setup-serial",
+            "type": "shell",
+            "command": "${workspaceFolder}/utils/remote-debug.sh",
+            "args": [ "${workspaceFolder}", "raspberry.local", "serial", "9999" ],
+            "group": "none",
+            "dependsOn": ["rust: cross-compile-serial"],
+        },
+        {
+            "label": "rust: native-debug-serial",
+            "type": "shell",
+            "command": "eu-strip",
+            "args": [ "-g","-f","${workspaceFolder}/target/debug/serial.debug","${workspaceFolder}/target/debug/serial"],
+            "group": "none",
+            "dependsOn": ["rust: native-compile-serial"],
+        }
+    ]
+}

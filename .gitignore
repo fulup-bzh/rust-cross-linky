@@ -1,0 +1,6 @@
+package
+target/
+.*.sw*
+*.tar.gz
+__*
+~*
